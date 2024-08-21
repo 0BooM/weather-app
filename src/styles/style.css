@@ -1,0 +1,89 @@
+@import url('font.css');
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: black;
+  background: linear-gradient(135deg, #e0f7fa, #fff9c4);
+}
+#content {
+  font-size: 1.6rem;
+  padding: 6rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.userInput {
+  margin-bottom: 4rem;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 2rem;
+}
+input {
+  font-size: 2rem;
+  border: 2px solid black;
+  border-radius: 0.4rem;
+  padding: 0.2rem 0.6rem;
+}
+.weather-card {
+  padding: 1rem 2rem;
+  border: 2px solid black;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: max(400px, 40%);
+}
+
+.weather-card h1,
+.weather-card .main-info {
+  border-bottom: 1px solid black;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+.weather-card h1 {
+  text-align: center;
+  font-size: 4rem;
+  font-weight: 500;
+}
+.weather-card .main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  width: 100%;
+}
+
+.main-info .left-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.main-info .left-side img {
+  width: 60px;
+}
+.main-info .left-side .temperature {
+  display: flex;
+  font-size: 4rem;
+  font-weight: 600;
+}
+.main-info .left-side .temperature .symbol {
+  font-size: 2rem;
+}
+
+.main-info .right-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.secondary-info {
+  font-size: 2rem;
+}
