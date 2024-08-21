@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,6 +6,32 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div>dasdawd</div>
+    <div id="content">
+      <div class="userInput">
+        <label for="userLocation">
+          Location:
+          <input type="text" name="userLocation" id="userLocation" />
+        </label>
+      </div>
+
+      <div class="weather-card">
+        <h1 class="location">Rydułtowy</h1>
+        <div class="main-info">
+          <div class="left-side">
+            <img src="./icons/clear-day.svg" alt="" />
+            <p class="temperature">27<span class="symbol">℃</span></p>
+          </div>
+          <div class="right-side">
+            <p>Wednesday, 16:00</p>
+            <p>Mostly cloudy</p>
+          </div>
+        </div>
+        <div class="secondary-info">
+          <p>Precipitation probability: <b>32%</b></p>
+          <p>Humidity: <b>10%</b></p>
+          <p>Wind: <b>23km/h</b></p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
