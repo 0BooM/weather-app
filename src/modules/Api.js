@@ -91,12 +91,7 @@ const Api = (() => {
     }
   }
 
-  async function consoleLog() {
-    console.log('Api is loaded');
-  }
-
   return {
-    consoleLog,
     getWeatherData,
   };
 })();
