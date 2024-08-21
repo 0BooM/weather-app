@@ -17,6 +17,10 @@ const Api = (() => {
     }
   }
 
+  function getAdress(data) {
+    return data.address;
+  }
+
   function getTempWindHumidity(data) {
     const { temp, windspeed, humidity } = data.currentConditions;
     const roundedTemp = Math.round(temp);
@@ -59,21 +63,36 @@ const Api = (() => {
       const data = await getLocationData(location);
       const locationData = data.dataJSON;
       console.log(locationData);
-      // const { cloudcover, conditions } = getCloudData(locationData);
-      // const { temp, windspeed, humidity } = getTempWindHumidity(locationData);
-      // const { precipprob } = getPrecibData(locationData);
+      const address = getAdress(locationData);
+      const hour = getHour(locationData);
+      const day = getDayName(locationData);
+      const { temp, windspeed, humidity } = getTempWindHumidity(locationData);
+      const { cloudcover, conditions } = getCloudData(locationData);
+      const { precipprob } = getPrecibData(locationData);
+      return {
+        address,
+        hour,
+        day,
+        temp,
+        windspeed,
+        humidity,
+        cloudcover,
+        conditions,
+        precipprob,
+      };
     } catch (error) {
       console.error('Failed to get weather data', error);
+      return error;
     }
   }
 
   async function consoleLog() {
     console.log('Api is loaded');
-    getWeatherData('Rydultowy');
   }
 
   return {
     consoleLog,
+    getWeatherData,
   };
 })();
 
