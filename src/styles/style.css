@@ -38,6 +38,9 @@ input {
   display: flex;
   flex-direction: column;
   width: max(400px, 40%);
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .weather-card h1,
@@ -86,4 +89,49 @@ input {
 
 .secondary-info {
   font-size: 2rem;
+}
+
+.upcoming-days {
+  background-color: #90caf9;
+  border: 2px solid #0d47a1;
+  margin-top: 3rem;
+  width: max(400px, 40%);
+  height: 200px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 2px solid black;
+  padding: 2rem 1rem;
+  border-radius: 2rem;
+}
+.weather-card,
+.upcoming-days {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+.upcoming-day-card {
+  background-color: #bbdefb;
+  color: #0d47a1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 30%;
+  border: 2px solid black;
+  border-radius: 2rem;
+  padding: 0.3rem 1.5rem;
+  font-size: 1.8rem;
+  transition: 0.15s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.upcoming-day-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.upcoming-day-card img {
+  width: 80px;
+}
+.upcoming-day-card .upcoming-temp {
+  font-size: 2.2rem;
+  font-weight: 600;
 }
