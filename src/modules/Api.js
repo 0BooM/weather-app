@@ -57,6 +57,9 @@ const Api = (() => {
     const { precip, precipprob } = data.currentConditions;
     return { precip, precipprob };
   }
+  function getIcon(data) {
+    return data.currentConditions.icon;
+  }
 
   async function getWeatherData(location) {
     try {
@@ -69,6 +72,7 @@ const Api = (() => {
       const { temp, windspeed, humidity } = getTempWindHumidity(locationData);
       const { cloudcover, conditions } = getCloudData(locationData);
       const { precipprob } = getPrecibData(locationData);
+      const icon = getIcon(locationData);
       return {
         address,
         hour,
@@ -79,6 +83,7 @@ const Api = (() => {
         cloudcover,
         conditions,
         precipprob,
+        icon,
       };
     } catch (error) {
       console.error('Failed to get weather data', error);
