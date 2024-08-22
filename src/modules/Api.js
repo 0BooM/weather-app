@@ -1,3 +1,5 @@
+import { addSeconds } from 'date-fns';
+
 const Api = (() => {
   const API_KEY = 'UYL2REAKVTBJU86ZHE42XUZSJ';
 
@@ -43,8 +45,26 @@ const Api = (() => {
   }
 
   function getHour(data) {
-    const fullTime = data.currentConditions.datetime;
-    const [hours, minutes] = fullTime.split(':');
+    const timezoneOffsetInHours = data.tzoffset;
+    if (typeof timezoneOffsetInHours !== 'number') {
+      console.error('Invalid timezone_offset:', timezoneOffsetInHours);
+      return 'Invalid Time';
+    }
+
+    console.log('Timezone Offset (hours):', timezoneOffsetInHours);
+
+    const now = new Date();
+    console.log('Current UTC Time:', now.toISOString());
+
+    // Oblicz lokalny czas bez dodawania przesunięcia strefy czasowej
+    const localTime = new Date(now.getTime() + timezoneOffsetInHours * 3600000);
+    console.log('Local Time:', localTime.toISOString());
+
+    // Pobierz godziny i minuty z lokalnego czasu
+    const hours = String(localTime.getUTCHours()).padStart(2, '0');
+    const minutes = String(localTime.getUTCMinutes()).padStart(2, '0');
+
+    console.log('Formatted Time:', `${hours}:${minutes}`);
     return `${hours}:${minutes}`;
   }
 
@@ -62,9 +82,10 @@ const Api = (() => {
     return data.currentConditions.icon;
   }
 
-  async function getWeatherData(location, unit = 'metric') {
+  async function getWeatherData(location) {
     try {
-      const locationData = await getLocationData(location, unit);
+      const locationData = await getLocationData(location);
+      console.log(locationData);
       const address = getAdress(locationData);
       const hour = getHour(locationData);
       const day = getDayName(locationData);
@@ -86,7 +107,7 @@ const Api = (() => {
       };
     } catch (error) {
       console.error('Failed to get weather data', error);
-      throw error;
+      return error;
     }
   }
 
