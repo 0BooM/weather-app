@@ -17,7 +17,9 @@ const Api = (() => {
   }
 
   function getAdress(data) {
-    return data.address;
+    const fullAddress = data.resolvedAddress;
+    const city = fullAddress.split(',')[0].trim();
+    return city;
   }
 
   function getTempWindHumidity(data) {
@@ -51,20 +53,10 @@ const Api = (() => {
       return 'Invalid Time';
     }
 
-    console.log('Timezone Offset (hours):', timezoneOffsetInHours);
-
     const now = new Date();
-    console.log('Current UTC Time:', now.toISOString());
-
-    // Oblicz lokalny czas bez dodawania przesunięcia strefy czasowej
     const localTime = new Date(now.getTime() + timezoneOffsetInHours * 3600000);
-    console.log('Local Time:', localTime.toISOString());
-
-    // Pobierz godziny i minuty z lokalnego czasu
     const hours = String(localTime.getUTCHours()).padStart(2, '0');
     const minutes = String(localTime.getUTCMinutes()).padStart(2, '0');
-
-    console.log('Formatted Time:', `${hours}:${minutes}`);
     return `${hours}:${minutes}`;
   }
 
