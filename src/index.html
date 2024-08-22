@@ -15,21 +15,29 @@
       </div>
 
       <div class="weather-card">
-        <h1 class="location">Rydułtowy</h1>
+        <div class="location-div">
+          <h1 id="location">Rydułtowy</h1>
+          <p class="change-unit">°F</p>
+        </div>
         <div class="main-info">
           <div class="left-side">
-            <img src="./icons/clear-day.svg" alt="" />
-            <p class="temperature">27<span class="symbol">℃</span></p>
+            <img src="./icons/clear-day.svg" alt="" id="weather-icon" />
+            <p id="temperature">
+              27
+              <span id="unit">℃</span>
+            </p>
           </div>
           <div class="right-side">
-            <p>Wednesday, 16:00</p>
-            <p>Mostly cloudy</p>
+            <p><span id="day">Wednesday</span>, <span id="hour">16:00</span></p>
+            <p id="cloud-status">Mostly cloudy</p>
           </div>
         </div>
         <div class="secondary-info">
-          <p>Precipitation probability: <b>32%</b></p>
-          <p>Humidity: <b>10%</b></p>
-          <p>Wind: <b>23km/h</b></p>
+          <p id="precip-prob">
+            Precipitation probability: <b id="precip-percent">32%</b>
+          </p>
+          <p id="humidity">Humidity: <b id="humidity-percent">10%</b></p>
+          <p id="wind">Wind: <b id="wind-speed">23km/h</b></p>
         </div>
       </div>
       <div class="upcoming-days">
