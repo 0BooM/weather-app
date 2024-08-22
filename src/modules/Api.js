@@ -1,16 +1,13 @@
 const Api = (() => {
   const API_KEY = 'UYL2REAKVTBJU86ZHE42XUZSJ';
 
-  // This is how the link looks to get weather:
-  // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/LOCATION?unitGroup=UNIT&key=API_KEY&contentType=json
-  async function getLocationData(location) {
+  async function getLocationData(location, unit = 'metric') {
     try {
-      const unit = 'metric';
       const response = await fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=${unit}&key=${API_KEY}&contentType=json`
       );
       const dataJSON = await response.json();
-      return { dataJSON };
+      return dataJSON;
     } catch (error) {
       console.log(`ERROR: ${error}`);
       throw error;
@@ -23,15 +20,13 @@ const Api = (() => {
 
   function getTempWindHumidity(data) {
     const { temp, windspeed, humidity } = data.currentConditions;
-    const roundedTemp = Math.round(temp);
-    const roundedWindspeed = Math.round(windspeed);
-    const roundedHumidity = Math.round(humidity);
     return {
-      temp: roundedTemp,
-      windspeed: roundedWindspeed,
-      humidity: roundedHumidity,
+      temp: Math.round(temp),
+      windspeed: Math.round(windspeed),
+      humidity: Math.round(humidity),
     };
   }
+
   function getDayName(data) {
     const today = new Date();
     const dayIndex = today.getDay();
@@ -46,28 +41,30 @@ const Api = (() => {
     ];
     return daysOfWeek[dayIndex];
   }
+
   function getHour(data) {
     const fullTime = data.currentConditions.datetime;
     const [hours, minutes] = fullTime.split(':');
     return `${hours}:${minutes}`;
   }
+
   function getCloudData(data) {
     const { cloudcover, conditions } = data.currentConditions;
     return { cloudcover, conditions };
   }
+
   function getPrecibData(data) {
     const { precip, precipprob } = data.currentConditions;
     return { precip, precipprob };
   }
+
   function getIcon(data) {
     return data.currentConditions.icon;
   }
 
-  async function getWeatherData(location) {
+  async function getWeatherData(location, unit = 'metric') {
     try {
-      const data = await getLocationData(location);
-      const locationData = data.dataJSON;
-      console.log(locationData);
+      const locationData = await getLocationData(location, unit);
       const address = getAdress(locationData);
       const hour = getHour(locationData);
       const day = getDayName(locationData);
@@ -89,7 +86,7 @@ const Api = (() => {
       };
     } catch (error) {
       console.error('Failed to get weather data', error);
-      return error;
+      throw error;
     }
   }
 
