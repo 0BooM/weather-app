@@ -47,7 +47,9 @@ const Api = (() => {
     return daysOfWeek[dayIndex];
   }
   function getHour(data) {
-    return data.currentConditions.datetime;
+    const fullTime = data.currentConditions.datetime;
+    const [hours, minutes] = fullTime.split(':');
+    return `${hours}:${minutes}`;
   }
   function getCloudData(data) {
     const { cloudcover, conditions } = data.currentConditions;
