@@ -1,30 +1,31 @@
 import Api from './Api';
 import fogIcon from '../icons/fog.svg';
 
+let unit = 'metric';
+
 const DisplayController = (() => {
   function getWeatherIcon(iconName) {
-    try {
-      // Dynamiczne importowanie ikony
-      return import(`../icons/${iconName}.svg`).then(
-        (module) => module.default
-      );
-    } catch (error) {
-      console.error(`Nie można załadować ikony: ${iconName}`, error);
-      return ''; // Zwróć pusty string lub ścieżkę do domyślnej ikony w przypadku błędu
-    }
+    return import(`../icons/${iconName}.svg`)
+      .then((module) => module.default)
+      .catch((error) => {
+        console.error(`Nie można załadować ikony: ${iconName}`, error);
+        return '';
+      });
   }
 
   function updateWeatherIcon(iconName) {
     getWeatherIcon(iconName).then((iconSrc) => {
       const weatherIcon = document.getElementById('weather-icon');
-      weatherIcon.src = iconSrc;
+      if (weatherIcon) {
+        weatherIcon.src = iconSrc;
+      }
     });
   }
 
   function renderMainWeatherInfo(data) {
     const location = document.getElementById('location');
     const temperature = document.getElementById('temperature');
-    const unit = document.getElementById('unit'); // Osobny element dla jednostki
+    const unitElement = document.getElementById('unit');
     const day = document.getElementById('day');
     const hour = document.getElementById('hour');
     const cloudStatus = document.getElementById('cloud-status');
@@ -34,31 +35,55 @@ const DisplayController = (() => {
 
     location.textContent = data.address;
     temperature.firstChild.nodeValue = data.temp;
-    unit.innerHTML = '℃';
+    unitElement.textContent = unit === 'metric' ? '℃' : '°F';
     day.textContent = data.day;
     hour.textContent = data.hour;
     cloudStatus.textContent = data.conditions;
     precipPercent.textContent = `${data.precipprob}%`;
     humidityPercent.textContent = `${data.humidity}%`;
-    windSpeed.textContent = `${data.windspeed} km/h`;
+    windSpeed.textContent = `${data.windspeed} ${unit === 'metric' ? 'km/h' : 'mph'}`;
 
     updateWeatherIcon(data.icon);
+  }
+
+  async function fetchAndRenderWeather(location) {
+    try {
+      const data = await Api.getWeatherData(location, unit);
+      renderMainWeatherInfo(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   function getUserLocationInput() {
     const input = document.querySelector('#userLocation');
     input.addEventListener('keypress', async (e) => {
       if (e.key === 'Enter') {
-        const data = await Api.getWeatherData(input.value);
-        console.log(data);
+        await fetchAndRenderWeather(input.value);
         input.value = '';
-        renderMainWeatherInfo(data);
       }
     });
   }
 
+  function changeTempUnit() {
+    const changeBtn = document.querySelector('.change-unit');
+    changeBtn.addEventListener('click', async () => {
+      unit = unit === 'metric' ? 'us' : 'metric';
+      changeBtn.textContent = unit === 'metric' ? '°F' : '℃';
+
+      const location = document.querySelector('#location').textContent.trim();
+      if (location) {
+        await fetchAndRenderWeather(location);
+      }
+    });
+  }
+
+  function init() {
+    getUserLocationInput(), changeTempUnit();
+  }
+
   return {
-    getUserLocationInput,
+    init,
   };
 })();
 
