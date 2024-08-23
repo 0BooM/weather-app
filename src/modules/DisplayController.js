@@ -70,6 +70,8 @@ const DisplayController = (() => {
           <p id="humidity">Humidity: <b id="humidity-percent"></b></p>
           <p id="wind">Wind: <b id="wind-speed"></b></p>
         </div>`;
+
+    changeTempUnit();
   }
 
   async function fetchAndRenderWeather(location) {
