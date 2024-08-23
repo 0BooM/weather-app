@@ -72,28 +72,43 @@ const Api = (() => {
     return data.currentConditions.icon;
   }
 
-  async function getWeatherData(location) {
+  async function getWeatherData(location, unit = 'metric') {
     try {
-      const locationData = await getLocationData(location);
+      const locationData = await getLocationData(location, unit);
       console.log(locationData);
+
       const address = getAdress(locationData);
-      const hour = getHour(locationData);
-      const day = getDayName(locationData);
-      const { temp, windspeed, humidity } = getTempWindHumidity(locationData);
+      const currentHour = getHour(locationData);
+      const currentDay = getDayName(locationData);
+      const {
+        temp: currentTemp,
+        windspeed,
+        humidity,
+      } = getTempWindHumidity(locationData);
       const { cloudcover, conditions } = getCloudData(locationData);
       const { precipprob } = getPrecibData(locationData);
-      const icon = getIcon(locationData);
+      const currentIcon = getIcon(locationData);
+
+      const upcomingDays = locationData.days.slice(1, 4).map((dayData) => {
+        const date = new Date(dayData.datetimeEpoch * 1000);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayIcon = dayData.icon;
+        const maxTemp = Math.round(dayData.tempmax);
+        return { dayName, dayIcon, maxTemp };
+      });
+
       return {
         address,
-        hour,
-        day,
-        temp,
+        currentHour,
+        currentDay,
+        currentTemp,
         windspeed,
         humidity,
         cloudcover,
         conditions,
         precipprob,
-        icon,
+        currentIcon,
+        upcomingDays,
       };
     } catch (error) {
       console.error('Failed to get weather data', error);
