@@ -1,5 +1,7 @@
-import './reset.css';
-import './styles.css';
-import Api from './modules/Api';
+import './styles/reset.css';
+import './styles/style.css';
+import DisplayController from './modules/DisplayController';
 
-Api.consoleLog();
+document.addEventListener('DOMContentLoaded', () => {
+  DisplayController.init();
+});
