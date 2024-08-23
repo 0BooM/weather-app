@@ -128,7 +128,6 @@ input {
   border: 2px solid black;
   padding: 2rem 1rem;
   border-radius: 2rem;
-  display: none;
 }
 .weather-card,
 .upcoming-days {
