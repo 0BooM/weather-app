@@ -36,7 +36,7 @@ const DisplayController = (() => {
     location.textContent = data.address;
     temperature.firstChild.nodeValue = data.temp;
     unitElement.textContent = unit === 'metric' ? '℃' : '°F';
-    day.textContent = data.day;
+    day.textContent = `${data.day}, `;
     hour.textContent = data.hour;
     cloudStatus.textContent = data.conditions;
     precipPercent.textContent = `${data.precipprob}%`;
@@ -45,9 +45,36 @@ const DisplayController = (() => {
 
     updateWeatherIcon(data.icon);
   }
+  function renderLoadingScreen() {
+    let mainContainer = document.querySelector('.weather-card');
+    mainContainer.innerHTML = `<div class="location-div">
+          <h1 id="location">Loading location...</h1>
+          <p class="change-unit">°F</p>
+        </div>
+        <div class="main-info">
+          <div class="left-side">
+            <img src="./icons/clear-day.svg" alt="" id="weather-icon" />
+            <p id="temperature">
+              <span id="unit"></span>
+            </p>
+          </div>
+          <div class="right-side">
+            <p><span id="day"></span><span id="hour"></span></p>
+            <p id="cloud-status"></p>
+          </div>
+        </div>
+        <div class="secondary-info">
+          <p id="precip-prob">
+            Precipitation probability: <b id="precip-percent"></b>
+          </p>
+          <p id="humidity">Humidity: <b id="humidity-percent"></b></p>
+          <p id="wind">Wind: <b id="wind-speed"></b></p>
+        </div>`;
+  }
 
   async function fetchAndRenderWeather(location) {
     try {
+      renderLoadingScreen();
       const data = await Api.getWeatherData(location, unit);
       renderMainWeatherInfo(data);
     } catch (error) {
