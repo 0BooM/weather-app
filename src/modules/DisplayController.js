@@ -34,17 +34,32 @@ const DisplayController = (() => {
     const windSpeed = document.getElementById('wind-speed');
 
     location.textContent = data.address;
-    temperature.firstChild.nodeValue = data.temp;
+    temperature.firstChild.nodeValue = data.currentTemp;
     unitElement.textContent = unit === 'metric' ? '℃' : '°F';
-    day.textContent = `${data.day}, `;
-    hour.textContent = data.hour;
+    day.textContent = `${data.currentDay}, `;
+    hour.textContent = data.currentHour;
     cloudStatus.textContent = data.conditions;
     precipPercent.textContent = `${data.precipprob}%`;
     humidityPercent.textContent = `${data.humidity}%`;
     windSpeed.textContent = `${data.windspeed} ${unit === 'metric' ? 'km/h' : 'mph'}`;
 
-    updateWeatherIcon(data.icon);
+    updateWeatherIcon(data.currentIcon);
+    console.log(data);
+    const upcomingDays = data.upcomingDays;
+    upcomingDays.forEach((dayData, index) => {
+      const dayCard = document.querySelectorAll('.upcoming-day-card')[index];
+      dayCard.querySelector('p').textContent = dayData.dayName;
+      const iconElement = dayCard.querySelector('img');
+      getWeatherIcon(dayData.dayIcon).then((iconSrc) => {
+        if (iconElement) {
+          iconElement.src = iconSrc;
+        }
+      });
+      dayCard.querySelector('.upcoming-temp').textContent =
+        `${dayData.maxTemp}°`;
+    });
   }
+
   function renderLoadingScreen() {
     let mainContainer = document.querySelector('.weather-card');
     mainContainer.innerHTML = `<div class="location-div">
