@@ -1,5 +1,3 @@
-import { addSeconds } from 'date-fns';
-
 const Api = (() => {
   const API_KEY = 'UYL2REAKVTBJU86ZHE42XUZSJ';
 
